@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cstdlib> 
 #include <ctime>
+#include <windows.h>
 
 using namespace std;
 using namespace System;
@@ -32,6 +33,13 @@ void obtenerfecha(char* fecha)
 	strftime(fecha, 30, "%d/%m/%Y  %H:%M", info);
 }
 
+void pausa()
+{
+	cout << "Presiona cualquier tecla para continuar..."; 
+	_getch();
+	system("cls");
+}
+
 //contar palabras
 int contarpalabras(char* texto)
 {
@@ -55,6 +63,53 @@ int contarpalabras(char* texto)
 		}
 	}
 }
+
+void mostrarentrada(entrada e)
+{
+	SetConsoleOutputCP(65001);
+	char* emoji = "(●'◡'●)";
+	if (strcmp(e.emocion, "triste") == 0) emoji = "（；´д｀）ゞ";
+	else if (strcmp(e.emocion, "enojado") == 0) emoji = "o(≧口≦)o";
+	else if (strcmp(e.emocion, "cansado") == 0) emoji = "(￣﹃￣)";
+	else if (strcmp(e.emocion, "enamorado") == 0) emoji = "(p≧w≦q)";
+
+	cout << "\n ┌─────────────────────────────────────┐\n";
+	cout << "| ID: #" << e.id << "                               |\n";
+	cout << "│ T " << e.fecha << "                         │\n";
+	cout << "│ E " << e.titulo << "\n";
+	cout << "│ " << e.contenido << "\n";
+	cout << "│ " << emoji << " " << e.emocion << "\n";
+	cout << "│ E " << e.palabras << " palabras                     │\n";
+	cout << "└─────────────────────────────────────┘\n";
+
+
+	SetConsoleOutputCP(437);
+}
+
+void verentradas()
+{
+	if (totalentradas == 0)
+	{
+		cout << "\n no hay entradas en tu diario\n";
+		return;
+	}
+	cout << "\n mis entradas \n";
+	cout << "Total: %d entradas\n\n" << totalentradas;
+
+	for (int i = 0; i < totalentradas; i++)
+	{
+		cout << "%d. [%s] %s - %s\n" << i + 1 << diario[i].fecha << diario[i].titulo << diario[i].emocion;
+	}
+
+	int opcion;
+	cout << "Ver entrada en detalle? (0 = No, 1 = Si): "; cin >> opcion;
+	if (opcion > 0 && opcion <= totalentradas)
+	{
+		system("cls");
+		mostrarentrada(diario[opcion - 1]);
+	}
+}
+
 
 void agregarentrada()
 {
