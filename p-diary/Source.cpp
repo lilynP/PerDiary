@@ -21,6 +21,8 @@ struct entrada
 
 entrada* diario = nullptr;
 int totalentradas = 0;
+int temaactual = 1;
+int colorfondoactual = 0;
 int siguienteid = 1; 
 
 //obtener fecha? 
@@ -196,11 +198,6 @@ void mostrarcitamotivacional()
 #define filas 7
 #define columnas 44
 
-void ventana()
-{
-	Console::SetWindowSize(40, 40);
-	Console::CursorVisible = false;
-}
 
 int matriz1[filas][columnas] =
 {
@@ -255,59 +252,204 @@ void color(int c)
 }
 
 
-void preferenciatitulo(int preferenciatitulo)
+void preferenciatitulo()
 {
+	ConsoleColor fondoactual = Console::BackgroundColor;
 
+	int anchoconsola = 80;
+	int anchotitulo = columnas;
+	int espaciosizquierda = (anchoconsola - anchotitulo) / 2;
 
-	switch (preferenciatitulo)
+	switch (temaactual)
 	{
 	case 1: 
 		for (int f = 0; f < filas; f++)
 		{
+			for (int e = 0; e < espaciosizquierda; e++)
+			{
+				cout << " ";
+			}
 			for (int c = 0; c < columnas; c++)
 			{
 				color(matriz1[f][c]);
-				cout << (char)219;
+				cout << (char)177;
 			}
+			cout << "\n";
 		}
 		break;
 	case 2: 
 		for (int f = 0; f < filas; f++)
 		{
+			for (int e = 0; e < espaciosizquierda; e++)
+			{
+				cout << " ";
+			}
 			for (int c = 0; c < columnas; c++)
 			{
 				color(matriz2[f][c]);
-				cout << (char)219;
+				cout << (char)177;
 			}
+			cout << "\n";
 		}
 		break;
 	case 3: 
 		for (int f = 0; f < filas; f++)
 		{
+			for (int e = 0; e < espaciosizquierda; e++)
+			{
+				cout << " ";
+			}
 			for (int c = 0; c < columnas; c++)
 			{
 				color(matriz3[f][c]);
-				cout << (char)219;
+				cout << (char)177;
 			}
+			cout << "\n";
+		}
+		break;
+	default:
+		temaactual = 1;
+		for (int f = 0; f < filas; f++)
+		{
+			for (int e = 0; e < espaciosizquierda; e++)
+			{
+				cout << " ";
+			}
+			for (int c = 0; c < columnas; c++)
+			{
+				color(matriz1[f][c]);
+				cout << (char)177;
+			}
+			cout << "\n";
 		}
 		break;
 	}
-}
-
-int* cambiarcoloresmenu(int colorfondo, int colortexto)
-{
-	ConsoleColor fondoactual = Console::BackgroundColor;
-	ConsoleColor textoactual = Console::ForegroundColor;
-
-	Console::BackgroundColor = (ConsoleColor)colorfondo;
-	Console::ForegroundColor = (ConsoleColor)colortexto;
-
-	system("cls");
-
-	preferenciatitulo(1);
 
 	Console::BackgroundColor = fondoactual;
-	Console::ForegroundColor = textoactual;
+}
+
+
+
+
+void cambiarcolorfondo()
+{
+	int opcfondo;
+	
+	cout << "\n ======= COLOR DE FONDO  ======\n";
+
+	Console::ForegroundColor = ConsoleColor::White;
+	cout << "1. Negro \n";
+
+	Console::ForegroundColor = ConsoleColor::Red;
+	cout << "2. Rojo \n";
+
+	Console::ForegroundColor = ConsoleColor::Yellow;
+	cout << "3. Amarillo \n";
+
+	Console::ForegroundColor = ConsoleColor::Green;
+	cout << "4. Verde \n";
+
+	Console::ForegroundColor = ConsoleColor::Cyan;
+	cout << "5. Cyan \n";
+
+	Console::ForegroundColor = ConsoleColor::Blue;
+	cout << "6. Azul \n";
+
+	Console::ForegroundColor = ConsoleColor::Magenta;
+	cout << "7. Morado \n";
+
+	Console::ForegroundColor = ConsoleColor::White;
+	cout << "8.Blanco \n";
+
+	cout << "\n Opcion: "; cin >> opcfondo;
+
+	colorfondoactual = opcfondo - 1;
+
+
+	switch (opcfondo)
+	{
+	case 1:
+		Console::BackgroundColor = ConsoleColor::Black;
+		system("cls");
+		cout << "Fondo cambiado a negro :D";
+		break;
+	case 2:
+		Console::BackgroundColor = ConsoleColor::Red;
+		system("cls");
+		cout << "Fondo cambiado a rojo :D";
+		break;
+	case 3:
+		Console::BackgroundColor = ConsoleColor::Yellow;
+		system("cls");
+		cout << "Fondo cambiado a amarillo :D";
+		break;
+	case 4:
+		Console::BackgroundColor = ConsoleColor::Green;
+		system("cls");
+		cout << "Fondo cambiado a verde :D";
+		break;
+	case 5:
+		Console::BackgroundColor = ConsoleColor::Cyan;
+		system("cls");
+		cout << "Fondo cambiado a cyan :D";
+		break;
+	case 6: 
+		Console::BackgroundColor = ConsoleColor::Blue;
+		system("cls");
+		cout << "Fondo cambiado a azul :D";
+		break;
+	case 7:
+		Console::BackgroundColor = ConsoleColor::Magenta;
+		system("cls");
+		cout << "Fondo cambiado a morado :D";
+		break;
+	case 8: 
+		Console::BackgroundColor = ConsoleColor::White;
+		system("cls");
+		Console::ForegroundColor = ConsoleColor::Black;
+		cout << "Fondo cambiado a blanco :D";
+		break;
+	case 9:
+		return;
+	default:
+		cout << "Opcion invalida >:(";
+	
+	}
+
+	cout << "Presiona una tecla para continuar...";
+	_getch();
+}
+
+void pantallacargando()
+{
+	system("cls");
+	cout << "Volviendo al menu principal..." << endl;
+	cout << "[";
+
+	for (int i = 0; i < 20; i++)
+	{
+		_sleep(80);
+		cout << (char)177;
+	}
+	cout << "] 100%\n";
+	_sleep(300);
+	system("cls");
+}
+
+void aplicarcoloresguardados()
+{
+	ConsoleColor coloresfondo[] =
+	{
+		ConsoleColor::Black,
+		ConsoleColor::Red,
+		ConsoleColor::Green,
+		ConsoleColor::Yellow,
+		ConsoleColor::Cyan,
+		ConsoleColor::Blue,
+		ConsoleColor::Magenta,
+		ConsoleColor::White
+	};
+	Console::BackgroundColor = coloresfondo[colorfondoactual];
 }
 
 void menucustomizacion()
@@ -319,14 +461,15 @@ void menucustomizacion()
 		system("cls");
 
 		Console::ForegroundColor = ConsoleColor::Cyan;
-		preferenciatitulo(1);
+		preferenciatitulo();
 		Console::ForegroundColor = ConsoleColor::White;
 
-		cout << "\n    ______           __                  _          \n" << endl;
-		cout << "\n   / ____/_  _______/ /_____  ____ ___  (_)___  ___ \n" << endl;
-		cout << "\n  / /   / / / / ___/ __/ __ \/ __ `__ \/ /_  / / _ \\\n" << endl;
-		cout << "\n / /___/ /_/ (__  ) /_/ /_/ / / / / / / / / /_/  __/\n" << endl;
-		cout << "\n\\____/\\__,_/____/\\__/\\____/_/ /_/ /_/_/ /___/\\___/ \n" << endl;
+		cout << "                                                    " << endl;
+		cout << "    ______           __                  _          " << endl;
+		cout << "   / ____/_  _______/ /_____  ____ ___  (_)___  ___ " << endl;
+		cout << "  / /   / / / / ___/ __/ __ \/ __ `__ \/ /_  / / _ \\" << endl;
+		cout << " / /___/ /_/ (__  ) /_/ /_/ / / / / / / / / /_/  __/" << endl;
+		cout << "\\____/\\__,_/____/\\__/\\____/_/ /_/ /_/_/ /___/\\___/ " << endl;
 
 		cout << "\n               ===TEMAS PREDEFINIDOS==\n";
 		cout << "\n                <1. frutiger aero >\n";
@@ -339,69 +482,66 @@ void menucustomizacion()
 		switch (opcolor)
 		{
 		case 1:
+			temaactual = 1;
 			system("cls");
 			Console::ForegroundColor = ConsoleColor::White;
-			preferenciatitulo(1);
+			preferenciatitulo();
 			cout << "\n Cambiado con exito \n";
 			cout << "\n Presiona cualquier tecla para continuar...";
-			_getch();
+			
 			break;
 		case 2: 
+			temaactual = 2;
 			system("cls");
 			Console::ForegroundColor = ConsoleColor::White;
-			preferenciatitulo(2);
+			preferenciatitulo();
 			cout << "\n Cambiado con exito \n";
 			cout << "\n Presiona cualquier tecla para continuar...";
-			_getch();
+			
 			break;
-		case 3: 
+		case 3:
+			temaactual = 3;
 			system("cls");
 			Console::ForegroundColor = ConsoleColor::White;
-			preferenciatitulo(3);
+			preferenciatitulo();
 			cout << "\n Cambiado con exito \n";
 			cout << "\n Presiona cualquier tecla para continuar...";
-			_getch();
+			
 			break;
 		case 4: 
 			system("cls");
 			cambiarcolorfondo();
 			break;
-		case 5: 
-			system("cls");
-			cout << "Volviendo al menu principal..." << endl;
-			cout << "[";
-
-			for (int i = 0; i < 20; i++)
-			{
-				_sleep(80);
-				cout << (char)219;
-			}
-			cout << "] 100%\n";
-			_sleep(300);
+		case 5:
+			pantallacargando();
+			break;
+		default: 
+			cout << "Pon algo valido >:(\n";
+			_getch();
+			
 		}
-	}
+	} while (opcolor != 5);
 }
-
-
 
 int main()
 {
 	srand(time(NULL));
 	int opcion;
-
+	Console::SetWindowSize(40, 40);
+	Console::CursorVisible = false;
 	Console::BackgroundColor = ConsoleColor::Black;
 	Console::ForegroundColor = ConsoleColor::White;
-
-	system("cls");
-	preferenciatitulo(1);
 
 	Console::ForegroundColor = ConsoleColor::White;
 	
 
 	do
 	{
+		system("cls");
+		preferenciatitulo();
+		aplicarcoloresguardados();
 		Console::ForegroundColor = ConsoleColor::Gray;
-		Console::BackgroundColor = ConsoleColor::Black;
+		
 		cout << "\n       =======MENU=====\n";
 		cout << "\n1. QUIERO ESCRIBIR!!! >:D\n";
 		cout << "\n2. Quiero ver mis entradas...\n";
@@ -436,7 +576,7 @@ int main()
 
 
 
-	} while (opcion !=3);
+	} while (opcion !=4);
 
 	delete[]diario;
 	return 0;
