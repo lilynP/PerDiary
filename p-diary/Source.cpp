@@ -120,6 +120,8 @@ void mostrarentrada(entrada e)
 
 void verentradas()
 {
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
 	if (totalentradas == 0)
 	{
 		cout << "\n no hay entradas en tu diario\n";
@@ -140,12 +142,19 @@ void verentradas()
 		system("cls");
 		mostrarentrada(diario[opcion - 1]);
 	}
+	Console::BackgroundColor = fondoanterior;
+	Console::ForegroundColor = textoanterior;
+
 	pausa();
 }
 
 
 void agregarentrada()
 {
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
+
+
 	diario = (entrada*)realloc(diario, (totalentradas + 1) * sizeof(entrada));
 
 	cout << "NUEVA ENTRADA" << endl;
@@ -174,7 +183,9 @@ void agregarentrada()
 	cout << "Fecha: "<< obtenerfecha(diario[totalentradas-1].fecha) << "\n";
 	cout << "Palabras: " << contarpalabras(diario[totalentradas-1].contenido) << "\n";
 
-	
+	Console::BackgroundColor = fondoanterior;
+	Console::ForegroundColor = textoanterior;
+
 	pausa();
 }
 
@@ -182,15 +193,16 @@ void mostrarcitamotivacional()
 {
 	SetConsoleOutputCP(65001);
 	int indice = rand() % totalcitas;
-	cout << "\n╔══════════════════════════════════════╗\n";
-	cout << "║       CITA DEL DÍA                   ║\n";
-	cout << "╠══════════════════════════════════════╣\n";
-	cout << "║                                      ║\n";
-	cout << "║  \"" << citas[indice][0] << "\"\n";
-	cout << "║                                      ║\n";
-	cout << "║           - " << citas[indice][1] << "           ║\n";
-	cout << "║                                      ║\n";
-	cout << "╚══════════════════════════════════════╝\n";
+	cout << endl;
+	cout << "\n╔════════════════════════════════════════════════════════════════════╗\n";
+	cout << "║                               CITA DEL DÍA                           ║\n";
+	cout << "╠══════════════════════════════════════════════════════════════════════╣\n";
+	cout << "║                                                                      ║\n";
+	cout << "║         " << citas[indice][0] << "                          \n";                
+	cout << "║                                                                      ║\n";
+	cout << "║                      -  " << citas[indice][1] << "           \n";
+	cout << "║                                                                      ║\n";
+	cout << "╚══════════════════════════════════════════════════════════════════════╝\n";
 	SetConsoleOutputCP(437);
 
 }
@@ -201,35 +213,37 @@ void mostrarcitamotivacional()
 
 int matriz1[filas][columnas] =
 {
-	{2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2},
-	{2,1,1,2,2,1,1,2,2,2,2,2,2,2,2,1,2,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,1,1,2,2,2,2,2,2,2,2,2,2},
-	{2,1,1,2,2,1,1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,1,2,2,2,1,1,1,1,2,2,2,2,2,1,2,2,2,2,1,2},
-	{2,1,1,1,1,1,2,1,1,1,2,1,1,1,1,1,2,1,2,2,2,1,1,2,2,1,2,2,1,1,2,2,1,1,2,2,2,1,2,2,2,1,2,2},
-	{2,1,1,2,2,2,2,1,1,1,2,1,2,2,2,1,2,1,2,2,1,1,1,1,1,1,1,2,1,1,2,2,2,2,1,1,2,1,1,1,1,2,2,2},
-	{2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,2,1,1,2,1,2,2,2,2,2,2,1,1,1,2,2,2,2,2,1,1,2,2,1,1,2,2,2},
-	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2},
+	{2,2,1,1,2,2,2,2,1,1,2,2,2,2,2,2,1,1,2,2,2,2,2,2,1,1,2,2,2,2,2,2,1,1,2,2,2,2,2,2,1,1,2,2},
+	{1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2},
+	{2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1},
+	{1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2},
+	{2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1},
+	{1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2},
+	{2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1},
+
 };
 
 int matriz2[filas][columnas] =
 {
-	{4,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4},
-	{4,3,3,4,4,3,3,4,4,4,4,4,4,4,4,3,4,3,4,4,4,4,4,4,4,4,4,4,3,3,4,4,3,3,4,4,4,4,4,4,4,4,4,4},
-	{4,3,3,4,4,3,3,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,3,3,4,4,4,3,3,3,3,4,4,4,4,4,3,4,4,4,4,3,4},
-	{4,3,3,3,3,3,4,3,3,3,4,3,3,3,3,3,4,3,4,4,4,3,3,4,4,3,4,4,3,3,4,4,3,3,4,4,4,3,4,4,4,3,4,4},
-	{4,3,3,4,4,4,4,3,3,3,4,3,4,4,4,3,4,3,4,4,3,3,3,3,3,3,3,4,3,3,4,4,4,4,3,3,4,3,3,3,3,4,4,4},
-	{4,3,3,4,4,4,4,4,4,4,4,3,3,3,3,3,4,3,3,4,3,4,4,4,4,4,4,3,3,3,4,4,4,4,4,3,3,4,4,3,3,4,4,4},
-	{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,4,4,4,4}
+	{4,4,3,3,4,4,4,4,3,3,4,4,4,4,4,4,3,3,4,4,4,4,4,4,3,3,4,4,4,4,4,4,3,3,4,4,4,4,4,4,3,3,4,4},
+	{3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4},
+	{4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3},
+	{3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4},
+	{4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3},
+	{3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4},
+	{4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3},
 };
 
 int matriz3[filas][columnas] =
 {
-	{6,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6},
-	{6,5,5,6,6,5,5,6,6,6,6,6,6,6,6,5,6,5,6,6,6,6,6,6,6,6,6,6,5,5,6,6,5,5,6,6,6,6,6,6,6,6,6,6},
-	{6,5,5,6,6,5,5,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,5,5,6,6,6,5,5,5,5,6,6,6,6,6,5,6,6,6,6,5,6},
-	{6,5,5,5,5,5,6,5,5,5,6,5,5,5,5,5,6,5,6,6,6,5,5,6,6,5,6,6,5,5,6,6,5,5,6,6,6,5,6,6,6,5,6,6},
-	{6,5,5,6,6,6,6,5,5,5,6,5,6,6,6,5,6,5,6,6,5,5,5,5,5,5,5,6,5,5,6,6,6,6,5,5,6,5,5,5,5,6,6,6},
-	{6,5,5,6,6,6,6,6,6,6,6,5,5,5,5,5,6,5,5,6,5,6,6,6,6,6,6,5,5,5,6,6,6,6,6,5,5,6,6,5,5,6,6,6},
-	{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,6,6,6,6}
+	{6,6,5,5,6,6,6,6,5,5,6,6,6,6,6,6,5,5,6,6,6,6,6,6,5,5,6,6,6,6,6,6,5,5,6,6,6,6,6,6,5,5,6,6},
+	{5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6},
+	{6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5},
+	{5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6},
+	{6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5},
+	{5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6},
+	{6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5,6,6,5,5},
+
 };
 
 void color(int c)
@@ -371,43 +385,43 @@ void cambiarcolorfondo()
 	case 1:
 		Console::BackgroundColor = ConsoleColor::Black;
 		system("cls");
-		cout << "Fondo cambiado a negro :D";
+		cout << "Fondo cambiado a negro :D" << endl;
 		break;
 	case 2:
 		Console::BackgroundColor = ConsoleColor::Red;
 		system("cls");
-		cout << "Fondo cambiado a rojo :D";
+		cout << "Fondo cambiado a rojo :D" << endl;
 		break;
 	case 3:
 		Console::BackgroundColor = ConsoleColor::Yellow;
 		system("cls");
-		cout << "Fondo cambiado a amarillo :D";
+		cout << "Fondo cambiado a amarillo :D" << endl;
 		break;
 	case 4:
 		Console::BackgroundColor = ConsoleColor::Green;
 		system("cls");
-		cout << "Fondo cambiado a verde :D";
+		cout << "Fondo cambiado a verde :D" << endl;
 		break;
 	case 5:
 		Console::BackgroundColor = ConsoleColor::Cyan;
 		system("cls");
-		cout << "Fondo cambiado a cyan :D";
+		cout << "Fondo cambiado a cyan :D" << endl;
 		break;
 	case 6: 
 		Console::BackgroundColor = ConsoleColor::Blue;
 		system("cls");
-		cout << "Fondo cambiado a azul :D";
+		cout << "Fondo cambiado a azul :D" << endl;
 		break;
 	case 7:
 		Console::BackgroundColor = ConsoleColor::Magenta;
 		system("cls");
-		cout << "Fondo cambiado a morado :D";
+		cout << "Fondo cambiado a morado :D" << endl;
 		break;
 	case 8: 
 		Console::BackgroundColor = ConsoleColor::White;
 		system("cls");
 		Console::ForegroundColor = ConsoleColor::Black;
-		cout << "Fondo cambiado a blanco :D";
+		cout << "Fondo cambiado a blanco :D" << endl;
 		break;
 	case 9:
 		return;
@@ -416,7 +430,7 @@ void cambiarcolorfondo()
 	
 	}
 
-	cout << "Presiona una tecla para continuar...";
+	cout << "Presiona una tecla para continuar..." << endl;
 	_getch();
 }
 
@@ -449,7 +463,16 @@ void aplicarcoloresguardados()
 		ConsoleColor::Magenta,
 		ConsoleColor::White
 	};
-	Console::BackgroundColor = coloresfondo[colorfondoactual];
+
+	if (colorfondoactual >= 0 && colorfondoactual <= 7)
+	{
+		Console::BackgroundColor = coloresfondo[colorfondoactual];
+	}
+	else
+	{
+		Console::BackgroundColor = ConsoleColor::Black;
+	}
+	Console::ForegroundColor = ConsoleColor::White;
 }
 
 void menucustomizacion()
@@ -464,20 +487,20 @@ void menucustomizacion()
 		preferenciatitulo();
 		Console::ForegroundColor = ConsoleColor::White;
 
-		cout << "                                                    " << endl;
-		cout << "    ______           __                  _          " << endl;
-		cout << "   / ____/_  _______/ /_____  ____ ___  (_)___  ___ " << endl;
-		cout << "  / /   / / / / ___/ __/ __ \/ __ `__ \/ /_  / / _ \\" << endl;
-		cout << " / /___/ /_/ (__  ) /_/ /_/ / / / / / / / / /_/  __/" << endl;
-		cout << "\\____/\\__,_/____/\\__/\\____/_/ /_/ /_/_/ /___/\\___/ " << endl;
+		cout << "                                                                " << endl;
+		cout << "                ______           __                  _          " << endl;
+		cout << "               / ____/_  _______/ /_____  ____ ___  (_)___  ___ " << endl;
+		cout << "              / /   / / / / ___/ __/ __ \/ __ `__ \/ /_  / / _ \\" << endl;
+		cout << "             / /___/ /_/ (__  ) /_/ /_/ / / / / / / / / /_/  __/" << endl;
+		cout << "             \\____/\\__,_/____/\\__/\\____/_/ /_/ /_/_/ /___/\\___/ " << endl;
 
-		cout << "\n               ===TEMAS PREDEFINIDOS==\n";
-		cout << "\n                <1. frutiger aero >\n";
-		cout << "\n                <2. cherry cocacola> \n";
-		cout << "\n                <3. SUNNYYYYYYYYYYY> \n";
-		cout << "\n        <4. nah, solo quiero cambiar el color del fondo>\n";
-		cout << "\n             <5. =VOLVER AL MENU PRINCIPAL=\n";
-		cout << "\n                       Opcion: "; cin >> opcolor;
+		cout << "\n                          ==TEMAS PREDEFINIDOS==\n";
+		cout << "\n                           <1. frutiger aero >\n";
+		cout << "\n                           <2. cherry cocacola> \n";
+		cout << "\n                           <3. SUNNYYYYYYYYYYY> \n";
+		cout << "\n               <4. nah, solo quiero cambiar el color del fondo>\n";
+		cout << "\n                         <5. =VOLVER AL MENU PRINCIPAL=\n";
+		cout << "\n                                   Opcion: "; cin >> opcolor;
 
 		switch (opcolor)
 		{
@@ -541,13 +564,19 @@ int main()
 		preferenciatitulo();
 		aplicarcoloresguardados();
 		Console::ForegroundColor = ConsoleColor::Gray;
-		
-		cout << "\n       =======MENU=====\n";
-		cout << "\n1. QUIERO ESCRIBIR!!! >:D\n";
-		cout << "\n2. Quiero ver mis entradas...\n";
-		cout << "\n3. Customize... :O\n";
-		cout << "\n4. Salir...-_-\n";
-		cout << "Opcion: "; cin >> opcion;
+
+		SetConsoleOutputCP(65001);
+		cout << endl;
+		cout << "                     ═══════════════════════════════════════════" << endl;
+		cout << "\n                  |            =======MENU=====               |\n";      
+		cout << "\n                  |        1. QUIERO ESCRIBIR!!! >:D          |\n";
+		cout << "\n                  |      2. Quiero ver mis entradas...        |\n";
+		cout << "\n                  |          3. Customize... :O               |\n";
+		cout << "\n                  |             4. Salir...-_-                |\n";
+		cout << "\n                   ═══════════════════════════════════════════ \n";
+		cout << "\n                                    Opcion:                   \n"; cin >> opcion;
+		cout << endl;
+		SetConsoleOutputCP(437);
 
 		switch (opcion)
 		{
