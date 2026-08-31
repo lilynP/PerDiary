@@ -193,26 +193,220 @@ void mostrarcitamotivacional()
 
 }
 
+#define filas 7
+#define columnas 44
+
+void ventana()
+{
+	Console::SetWindowSize(40, 40);
+	Console::CursorVisible = false;
+}
+
+int matriz1[filas][columnas] =
+{
+	{2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2},
+	{2,1,1,2,2,1,1,2,2,2,2,2,2,2,2,1,2,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,1,1,2,2,2,2,2,2,2,2,2,2},
+	{2,1,1,2,2,1,1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,1,2,2,2,1,1,1,1,2,2,2,2,2,1,2,2,2,2,1,2},
+	{2,1,1,1,1,1,2,1,1,1,2,1,1,1,1,1,2,1,2,2,2,1,1,2,2,1,2,2,1,1,2,2,1,1,2,2,2,1,2,2,2,1,2,2},
+	{2,1,1,2,2,2,2,1,1,1,2,1,2,2,2,1,2,1,2,2,1,1,1,1,1,1,1,2,1,1,2,2,2,2,1,1,2,1,1,1,1,2,2,2},
+	{2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,2,1,1,2,1,2,2,2,2,2,2,1,1,1,2,2,2,2,2,1,1,2,2,1,1,2,2,2},
+	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2},
+};
+
+int matriz2[filas][columnas] =
+{
+	{4,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4},
+	{4,3,3,4,4,3,3,4,4,4,4,4,4,4,4,3,4,3,4,4,4,4,4,4,4,4,4,4,3,3,4,4,3,3,4,4,4,4,4,4,4,4,4,4},
+	{4,3,3,4,4,3,3,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,3,3,4,4,4,3,3,3,3,4,4,4,4,4,3,4,4,4,4,3,4},
+	{4,3,3,3,3,3,4,3,3,3,4,3,3,3,3,3,4,3,4,4,4,3,3,4,4,3,4,4,3,3,4,4,3,3,4,4,4,3,4,4,4,3,4,4},
+	{4,3,3,4,4,4,4,3,3,3,4,3,4,4,4,3,4,3,4,4,3,3,3,3,3,3,3,4,3,3,4,4,4,4,3,3,4,3,3,3,3,4,4,4},
+	{4,3,3,4,4,4,4,4,4,4,4,3,3,3,3,3,4,3,3,4,3,4,4,4,4,4,4,3,3,3,4,4,4,4,4,3,3,4,4,3,3,4,4,4},
+	{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,4,4,4,4}
+};
+
+int matriz3[filas][columnas] =
+{
+	{6,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6},
+	{6,5,5,6,6,5,5,6,6,6,6,6,6,6,6,5,6,5,6,6,6,6,6,6,6,6,6,6,5,5,6,6,5,5,6,6,6,6,6,6,6,6,6,6},
+	{6,5,5,6,6,5,5,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,5,5,6,6,6,5,5,5,5,6,6,6,6,6,5,6,6,6,6,5,6},
+	{6,5,5,5,5,5,6,5,5,5,6,5,5,5,5,5,6,5,6,6,6,5,5,6,6,5,6,6,5,5,6,6,5,5,6,6,6,5,6,6,6,5,6,6},
+	{6,5,5,6,6,6,6,5,5,5,6,5,6,6,6,5,6,5,6,6,5,5,5,5,5,5,5,6,5,5,6,6,6,6,5,5,6,5,5,5,5,6,6,6},
+	{6,5,5,6,6,6,6,6,6,6,6,5,5,5,5,5,6,5,5,6,5,6,6,6,6,6,6,5,5,5,6,6,6,6,6,5,5,6,6,5,5,6,6,6},
+	{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,6,6,6,6}
+};
+
+void color(int c)
+{
+	switch (c)
+	{
+	case 1:
+		Console::ForegroundColor = ConsoleColor::Cyan; break;
+	case 2:
+		Console::ForegroundColor = ConsoleColor::Green; break;
+	case 3:
+		Console::ForegroundColor = ConsoleColor::Red; break;
+	case 4: 
+		Console::ForegroundColor = ConsoleColor::Magenta; break;
+	case 5:
+		Console::ForegroundColor = ConsoleColor::Yellow; break;
+	case 6: 
+		Console::ForegroundColor = ConsoleColor::White; break;
+	}
+}
+
+
+void preferenciatitulo(int preferenciatitulo)
+{
+
+
+	switch (preferenciatitulo)
+	{
+	case 1: 
+		for (int f = 0; f < filas; f++)
+		{
+			for (int c = 0; c < columnas; c++)
+			{
+				color(matriz1[f][c]);
+				cout << (char)219;
+			}
+		}
+		break;
+	case 2: 
+		for (int f = 0; f < filas; f++)
+		{
+			for (int c = 0; c < columnas; c++)
+			{
+				color(matriz2[f][c]);
+				cout << (char)219;
+			}
+		}
+		break;
+	case 3: 
+		for (int f = 0; f < filas; f++)
+		{
+			for (int c = 0; c < columnas; c++)
+			{
+				color(matriz3[f][c]);
+				cout << (char)219;
+			}
+		}
+		break;
+	}
+}
+
+int* cambiarcoloresmenu(int colorfondo, int colortexto)
+{
+	ConsoleColor fondoactual = Console::BackgroundColor;
+	ConsoleColor textoactual = Console::ForegroundColor;
+
+	Console::BackgroundColor = (ConsoleColor)colorfondo;
+	Console::ForegroundColor = (ConsoleColor)colortexto;
+
+	system("cls");
+
+	preferenciatitulo(1);
+
+	Console::BackgroundColor = fondoactual;
+	Console::ForegroundColor = textoactual;
+}
+
+void menucustomizacion()
+{
+	int opcolor;
+
+	do
+	{
+		system("cls");
+
+		Console::ForegroundColor = ConsoleColor::Cyan;
+		preferenciatitulo(1);
+		Console::ForegroundColor = ConsoleColor::White;
+
+		cout << "\n    ______           __                  _          \n" << endl;
+		cout << "\n   / ____/_  _______/ /_____  ____ ___  (_)___  ___ \n" << endl;
+		cout << "\n  / /   / / / / ___/ __/ __ \/ __ `__ \/ /_  / / _ \\\n" << endl;
+		cout << "\n / /___/ /_/ (__  ) /_/ /_/ / / / / / / / / /_/  __/\n" << endl;
+		cout << "\n\\____/\\__,_/____/\\__/\\____/_/ /_/ /_/_/ /___/\\___/ \n" << endl;
+
+		cout << "\n               ===TEMAS PREDEFINIDOS==\n";
+		cout << "\n                <1. frutiger aero >\n";
+		cout << "\n                <2. cherry cocacola> \n";
+		cout << "\n                <3. SUNNYYYYYYYYYYY> \n";
+		cout << "\n        <4. nah, solo quiero cambiar el color del fondo>\n";
+		cout << "\n             <5. =VOLVER AL MENU PRINCIPAL=\n";
+		cout << "\n                       Opcion: "; cin >> opcolor;
+
+		switch (opcolor)
+		{
+		case 1:
+			system("cls");
+			Console::ForegroundColor = ConsoleColor::White;
+			preferenciatitulo(1);
+			cout << "\n Cambiado con exito \n";
+			cout << "\n Presiona cualquier tecla para continuar...";
+			_getch();
+			break;
+		case 2: 
+			system("cls");
+			Console::ForegroundColor = ConsoleColor::White;
+			preferenciatitulo(2);
+			cout << "\n Cambiado con exito \n";
+			cout << "\n Presiona cualquier tecla para continuar...";
+			_getch();
+			break;
+		case 3: 
+			system("cls");
+			Console::ForegroundColor = ConsoleColor::White;
+			preferenciatitulo(3);
+			cout << "\n Cambiado con exito \n";
+			cout << "\n Presiona cualquier tecla para continuar...";
+			_getch();
+			break;
+		case 4: 
+			system("cls");
+			cambiarcolorfondo();
+			break;
+		case 5: 
+			system("cls");
+			cout << "Volviendo al menu principal..." << endl;
+			cout << "[";
+
+			for (int i = 0; i < 20; i++)
+			{
+				_sleep(80);
+				cout << (char)219;
+			}
+			cout << "] 100%\n";
+			_sleep(300);
+		}
+	}
+}
+
+
+
 int main()
 {
 	srand(time(NULL));
 	int opcion;
 
+	Console::BackgroundColor = ConsoleColor::Black;
+	Console::ForegroundColor = ConsoleColor::White;
 
-	cout << "21111112222222221222222222221111122222222222\n";
-	cout << "21122112222222212122222222221122112222222222\n";
-	cout << "21122112222222212222222112221111222221222212\n";
-	cout << "21111121112111112122211221221122112221222122\n";
-	cout << "21122221112122212122111111121122221121111222\n";
-	cout << "21122222222111112112122222211122222112211222\n";
-	cout << "22222222222222222222222222222222222111112222\n";
+	system("cls");
+	preferenciatitulo(1);
+
+	Console::ForegroundColor = ConsoleColor::White;
+	
 
 	do
 	{
-		cout << "\n   =======MENU=====\n";
+		Console::ForegroundColor = ConsoleColor::Gray;
+		Console::BackgroundColor = ConsoleColor::Black;
+		cout << "\n       =======MENU=====\n";
 		cout << "\n1. QUIERO ESCRIBIR!!! >:D\n";
 		cout << "\n2. Quiero ver mis entradas...\n";
-		cout << "\n3. Salir...-_-\n";
+		cout << "\n3. Customize... :O\n";
+		cout << "\n4. Salir...-_-\n";
 		cout << "Opcion: "; cin >> opcion;
 
 		switch (opcion)
@@ -225,7 +419,11 @@ int main()
 			system("cls");
 			verentradas();
 			break;
-		case 3:
+		case 3: 
+			system("cls");
+			menucustomizacion();
+			break;
+		case 4:
 			system("cls");
 			cout << "Hasta pronto! :D Recuerda...";
 			mostrarcitamotivacional();
