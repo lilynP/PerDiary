@@ -33,6 +33,28 @@ void obtenerfecha(char* fecha)
 	strftime(fecha, 30, "%d/%m/%Y  %H:%M", info);
 }
 
+char* citas[][2] =
+{
+	{"Escribe para vivir, no vivas para escribir.", "Anónimo"},
+	{"La pluma es la lengua del alma.", "Cervantes"},
+	{"Escribir es fácil. Solo hay que poner una palabra tras otra.", "Neil Gaiman"},
+	{"Un escritor es alguien para quien escribir es más difícil que para otros.", "Thomas Mann"},
+	{"La literatura es el arte de descubrir algo extraordinario sobre personas ordinarias.", "Pearl S. Buck"},
+	{"Escribe sin miedo. Edita sin piedad.", "Anónimo"},
+	{"La escritura es la pintura de la voz.", "Voltaire"},
+	{"El lapiz es el mejor amigo del escritor.", "Anónimo"},
+	{"Escribir es la forma más profunda de leer.", "Anónimo"},
+	{"Un diario es un amigo que nunca juzga.", "Anónimo"},
+	{"Las palabras son el disfraz de las ideas.", "Anónimo"},
+	{"Escribir es pensar con otra tinta.", "Anónimo"},
+	{"La poesia es el lenguaje de los sentimientos.", "Anónimo"},
+	{"Leer es viajar sin mover los pies.", "Anónimo"},
+	{"La escritura es el espejo del alma.", "Anónimo"}
+
+};
+
+int totalcitas = sizeof(citas) / sizeof(citas[0]);
+
 void pausa()
 {
 	cout << "Presiona cualquier tecla para continuar..."; 
@@ -129,5 +151,69 @@ void agregarentrada()
 	cout << "EMOCION (feliz, triste, enojado, cansado, enamorado): ";
 	cin.getline(diario[totalentradas].emocion, 20);
 
+	diario[totalentradas].id = siguienteid++;
+	obtenerfecha(diario[totalentradas].fecha);
+	diario[totalentradas].palabras = contarpalabras(diario[totalentradas].contenido);
 
+}
+
+void mostrarcitamotivacional()
+{
+	int indice = rand() % totalcitas;
+
+	cout << "\n╔══════════════════════════════════════╗\n";
+	cout << "║       frase chevere del dia :)       ║\n";
+	cout << "╠══════════════════════════════════════╣\n";
+	cout << "║                                      ║\n";
+	cout << "║  \"" << citas[indice][0] << "\"\n";
+	cout << "║                                      ║\n";
+	cout << "║           - " << citas[indice][1] << "           ║\n";
+	cout << "║                                      ║\n";
+	cout << "╚══════════════════════════════════════╝\n";
+	
+}
+
+int main()
+{
+	srand(time(NULL));
+	int opcion;
+
+
+	cout << "21111112222222221222222222221111122222222222\n";
+	cout << "21122112222222212122222222221122112222222222\n";
+	cout << "21122112222222212222222112221111222221222212\n";
+	cout << "21111121112111112122211221221122112221222122\n";
+	cout << "21122221112122212122111111121122221121111222\n";
+	cout << "21122222222111112112122222211122222112211222\n";
+	cout << "22222222222222222222222222222222222111112222\n";
+
+	do
+	{
+		cout << "\n   =======MENU=====\n";
+		cout << "\n1. QUIERO ESCRIBIR!!! >:D\n";
+		cout << "\n2. Quiero ver mis entradas...\n";
+		cout << "\n3. Salir...-_-\n";
+		cout << "Opcion: "; cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1:
+			system("cls");
+			agregarentrada();
+			break;
+		case 2: 
+			system("cls");
+			verentradas();
+			break;
+		case 3:
+			system("cls");
+			cout << "Hasta pronto! :D Recuerda...";
+			mostrarcitamotivacional();
+			cout << "Sigue escribiendo!!!! >:D";
+			break;
+		}
+
+
+
+	} while (opcion != 1 || opcion != 2 || opcion !=3);
 }
