@@ -348,6 +348,8 @@ void preferenciatitulo()
 void cambiarcolorfondo()
 {
 	int opcfondo;
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
 	
 	cout << "\n ======= COLOR DE FONDO  ======\n";
 
@@ -357,11 +359,11 @@ void cambiarcolorfondo()
 	Console::ForegroundColor = ConsoleColor::Red;
 	cout << "2. Rojo \n";
 
-	Console::ForegroundColor = ConsoleColor::Yellow;
-	cout << "3. Amarillo \n";
-
 	Console::ForegroundColor = ConsoleColor::Green;
-	cout << "4. Verde \n";
+	cout << "3. Verde \n";
+
+	Console::ForegroundColor = ConsoleColor::Yellow;
+	cout << "4. Amarillo \n";
 
 	Console::ForegroundColor = ConsoleColor::Cyan;
 	cout << "5. Cyan \n";
@@ -384,46 +386,55 @@ void cambiarcolorfondo()
 	{
 	case 1:
 		Console::BackgroundColor = ConsoleColor::Black;
+		Console::ForegroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a negro :D" << endl;
 		break;
 	case 2:
 		Console::BackgroundColor = ConsoleColor::Red;
+		Console::BackgroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a rojo :D" << endl;
 		break;
 	case 3:
 		Console::BackgroundColor = ConsoleColor::Yellow;
+		Console::ForegroundColor = ConsoleColor::DarkGray;
 		system("cls");
 		cout << "Fondo cambiado a amarillo :D" << endl;
 		break;
 	case 4:
 		Console::BackgroundColor = ConsoleColor::Green;
+		Console::ForegroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a verde :D" << endl;
 		break;
 	case 5:
 		Console::BackgroundColor = ConsoleColor::Cyan;
+		Console::BackgroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a cyan :D" << endl;
 		break;
-	case 6: 
+	case 6:
 		Console::BackgroundColor = ConsoleColor::Blue;
+		Console::BackgroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a azul :D" << endl;
 		break;
 	case 7:
 		Console::BackgroundColor = ConsoleColor::Magenta;
+		Console::BackgroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a morado :D" << endl;
 		break;
-	case 8: 
+	case 8:
 		Console::BackgroundColor = ConsoleColor::White;
+		Console::ForegroundColor = ConsoleColor::DarkGray;
 		system("cls");
-		Console::ForegroundColor = ConsoleColor::Black;
 		cout << "Fondo cambiado a blanco :D" << endl;
 		break;
 	case 9:
+		Console::BackgroundColor = fondoanterior;
+		Console::ForegroundColor = textoanterior;
 		return;
 	default:
 		cout << "Opcion invalida >:(";
@@ -432,11 +443,24 @@ void cambiarcolorfondo()
 
 	cout << "Presiona una tecla para continuar..." << endl;
 	_getch();
+
+	aplicarcoloresguardados();
+	Console::ForegroundColor = ConsoleColor::White;
 }
 
 void pantallacargando()
 {
 	system("cls");
+	aplicarcoloresguardados();
+
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::Black;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::White;
+	}
 	cout << "Volviendo al menu principal..." << endl;
 	cout << "[";
 
@@ -473,6 +497,15 @@ void aplicarcoloresguardados()
 		Console::BackgroundColor = ConsoleColor::Black;
 	}
 	Console::ForegroundColor = ConsoleColor::White;
+
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::DarkGray;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::White;
+	}
 }
 
 void menucustomizacion()
@@ -483,9 +516,17 @@ void menucustomizacion()
 	{
 		system("cls");
 
-		Console::ForegroundColor = ConsoleColor::Cyan;
+		aplicarcoloresguardados();
 		preferenciatitulo();
-		Console::ForegroundColor = ConsoleColor::White;
+		
+		if (colorfondoactual == 3 || colorfondoactual == 7)
+		{
+			Console::ForegroundColor = ConsoleColor::Black;
+		}
+		else
+		{
+			Console::ForegroundColor = ConsoleColor::White;
+		}
 
 		cout << "                                                                " << endl;
 		cout << "                ______           __                  _          " << endl;
@@ -509,6 +550,14 @@ void menucustomizacion()
 			system("cls");
 			Console::ForegroundColor = ConsoleColor::White;
 			preferenciatitulo();
+			if (colorfondoactual == 3 || colorfondoactual == 7)
+			{
+				Console::ForegroundColor = ConsoleColor::DarkGray;
+			}
+			else
+			{
+				Console::ForegroundColor = ConsoleColor::White;
+			}
 			cout << "\n Cambiado con exito \n";
 			cout << "\n Presiona cualquier tecla para continuar...";
 			
@@ -518,6 +567,14 @@ void menucustomizacion()
 			system("cls");
 			Console::ForegroundColor = ConsoleColor::White;
 			preferenciatitulo();
+			if (colorfondoactual == 3 || colorfondoactual == 7)
+			{
+				Console::ForegroundColor = ConsoleColor::DarkGray;
+			}
+			else
+			{
+				Console::ForegroundColor = ConsoleColor::White;
+			}
 			cout << "\n Cambiado con exito \n";
 			cout << "\n Presiona cualquier tecla para continuar...";
 			
@@ -527,6 +584,14 @@ void menucustomizacion()
 			system("cls");
 			Console::ForegroundColor = ConsoleColor::White;
 			preferenciatitulo();
+			if (colorfondoactual == 3 || colorfondoactual == 7)
+			{
+				Console::ForegroundColor = ConsoleColor::DarkGray;
+			}
+			else
+			{
+				Console::ForegroundColor = ConsoleColor::White;
+			}
 			cout << "\n Cambiado con exito \n";
 			cout << "\n Presiona cualquier tecla para continuar...";
 			
@@ -544,6 +609,21 @@ void menucustomizacion()
 			
 		}
 	} while (opcolor != 5);
+
+}
+
+void restaurarcoloresmenu()
+{
+	aplicarcoloresguardados();
+
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::DarkGray;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::Gray;
+	}
 }
 
 int main()
@@ -552,18 +632,22 @@ int main()
 	int opcion;
 	Console::SetWindowSize(40, 40);
 	Console::CursorVisible = false;
-	Console::BackgroundColor = ConsoleColor::Black;
-	Console::ForegroundColor = ConsoleColor::White;
-
-	Console::ForegroundColor = ConsoleColor::White;
-	
-
+	colorfondoactual = 0;
+	aplicarcoloresguardados();
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::DarkGray;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::White;
+	}
 	do
 	{
 		system("cls");
 		preferenciatitulo();
 		aplicarcoloresguardados();
-		Console::ForegroundColor = ConsoleColor::Gray;
+		Console::ForegroundColor = ConsoleColor::DarkGray;
 
 		SetConsoleOutputCP(65001);
 		cout << endl;
@@ -576,6 +660,17 @@ int main()
 		cout << "\n                   ═══════════════════════════════════════════ \n";
 		cout << "\n                                    Opcion:                   \n"; cin >> opcion;
 		cout << endl;
+		
+		if (colorfondoactual == 3 || colorfondoactual == 7)
+		{
+			Console::ForegroundColor = ConsoleColor::DarkGray;
+		}
+		else
+		{
+			Console::ForegroundColor = ConsoleColor::White;
+		}
+
+		
 		SetConsoleOutputCP(437);
 
 		switch (opcion)
