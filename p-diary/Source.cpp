@@ -392,7 +392,7 @@ void cambiarcolorfondo()
 		break;
 	case 2:
 		Console::BackgroundColor = ConsoleColor::Red;
-		Console::BackgroundColor = ConsoleColor::White;
+		Console::ForegroundColor = ConsoleColor::White;
 		system("cls");
 		cout << "Fondo cambiado a rojo :D" << endl;
 		break;
@@ -400,13 +400,13 @@ void cambiarcolorfondo()
 		Console::BackgroundColor = ConsoleColor::Yellow;
 		Console::ForegroundColor = ConsoleColor::DarkGray;
 		system("cls");
-		cout << "Fondo cambiado a amarillo :D" << endl;
+		cout << "Fondo cambiado a verde :D" << endl;
 		break;
 	case 4:
 		Console::BackgroundColor = ConsoleColor::Green;
 		Console::ForegroundColor = ConsoleColor::White;
 		system("cls");
-		cout << "Fondo cambiado a verde :D" << endl;
+		cout << "Fondo cambiado a amarillo :D" << endl;
 		break;
 	case 5:
 		Console::BackgroundColor = ConsoleColor::Cyan;
@@ -444,14 +444,12 @@ void cambiarcolorfondo()
 	cout << "Presiona una tecla para continuar..." << endl;
 	_getch();
 
-	aplicarcoloresguardados();
 	Console::ForegroundColor = ConsoleColor::White;
 }
 
 void pantallacargando()
 {
 	system("cls");
-	aplicarcoloresguardados();
 
 	if (colorfondoactual == 3 || colorfondoactual == 7)
 	{
@@ -626,6 +624,117 @@ void restaurarcoloresmenu()
 	}
 }
 
+
+void titulobuscar()
+{
+
+	Console::ForegroundColor = ConsoleColor::DarkBlue;
+	cout << " ______                                              ___                    " << endl;
+	cout << "|_   _ \\                                           .:---:.         _         " << endl;
+	cout << "  | |_) | __   _   .--.   .---.  ,--.   _ .--.    // #   \\_...--'' \\       " << endl;
+	cout << "  |  __'.[  | | | ( (`\\] / /'`\]`'_\\ : [ `/'`\\]   || #     |_         |       " << endl;
+	cout << " _| |__) || \\_/ |, `'.'. | \\__. // | |, | |       \\     // ```--.._/              " << endl;
+	cout << "|_______/ '.__.'_/[\\__) )'.___.'\\'-;__/[___]       ':===:'             " << endl;
+	cout << "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ```            " << endl;
+
+	Console::ForegroundColor = ConsoleColor::Red;
+}
+
+void buscarporpalabra()
+{
+	char palabra[50];
+	int encontradas = 0;
+
+	system("cls");
+	titulobuscar();
+
+	cout << "Ingresa una PALABRA: "; cin >> palabra;
+
+	Console::ForegroundColor = ConsoleColor::White;
+	for (int i = 0; i < totalentradas; i++)
+	{
+		if (strstr(diario[i].titulo, palabra) != nullptr || strstr(diario[i].contenido, palabra) != nullptr)
+		{
+			mostrarentrada(diario[i]);
+			encontradas++;
+		}
+	}
+
+	if (encontradas == 0)
+	{
+		cout << "No se encontraron entradas con " << palabra << endl;
+	}
+	else
+	{
+		cout << "Encontradas: " << encontradas << " entradas." << endl;
+	}
+	pausa();
+}
+
+string normalizarfecha(string fecha) //hecho con ia
+{
+	int pos1 = fecha.find('/');
+	int pos2 = fecha.find('/', pos1 + 1);
+
+	if (pos1 == string::npos || pos2 == string::npos)
+	{
+		return fecha;
+	}
+
+	string dia = fecha.substr(0, pos1);
+	string mes = fecha.substr(pos1 + 1, pos2 - pos1 - 1);
+	string anio = fecha.substr(pos2 + 1);
+
+	if (dia.length() == 1)
+	{
+		dia = "0" + dia;
+	}
+	if (mes.length() == 1)
+	{
+		mes = "0" + mes;
+	}
+	return dia + "/" + mes + "/" + anio;
+}
+
+
+void buscarporfecha()
+{
+
+	string fechainput;
+	int encontradas = 0;
+
+	system("cls");
+	titulobuscar();
+
+	cout << "Ingresa una FECHA (DD/MM/AAAA)"; cin >> fechainput;
+	string fechanormalizada = normalizarfecha(fechainput);
+
+	for (int i = 0; i < totalentradas; i++)
+	{
+		string fechaentrada = diario[i].fecha;
+		if (fechaentrada.find(fechanormalizada) != string::npos)
+		{
+			mostrarentrada(diario[i]);
+			encontradas++;
+		}
+	}
+
+	if (encontradas == 0)
+	{
+		cout << "No hay entradas del " << fechanormalizada << endl;
+	}
+	else
+	{
+		cout << "Encontradas: " << encontradas << " entradas" << endl;
+	}
+
+	pausa();
+}
+
+
+
+
+
 int main()
 {
 	srand(time(NULL));
@@ -656,7 +765,9 @@ int main()
 		cout << "\n                  |        1. QUIERO ESCRIBIR!!! >:D          |\n";
 		cout << "\n                  |      2. Quiero ver mis entradas...        |\n";
 		cout << "\n                  |          3. Customize... :O               |\n";
-		cout << "\n                  |             4. Salir...-_-                |\n";
+		cout << "\n                  |        4. Buscar por PALABRA              |\n";
+		cout << "\n                  |         5. buscar por FECHA               |\n";
+		cout << "\n                  |             6. Salir...-_-                |\n";
 		cout << "\n                   ═══════════════════════════════════════════ \n";
 		cout << "\n                                    Opcion:                   \n"; cin >> opcion;
 		cout << endl;
@@ -687,7 +798,13 @@ int main()
 			system("cls");
 			menucustomizacion();
 			break;
-		case 4:
+		case 4: 
+			buscarporpalabra();
+			break;
+		case 5:
+			buscarporfecha();
+			break;
+		case 6:
 			system("cls");
 			cout << "Hasta pronto! :D Recuerda...";
 			mostrarcitamotivacional();
@@ -700,7 +817,7 @@ int main()
 
 
 
-	} while (opcion !=4);
+	} while (opcion !=6);
 
 	delete[]diario;
 	return 0;
