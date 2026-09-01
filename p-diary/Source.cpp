@@ -400,13 +400,13 @@ void cambiarcolorfondo()
 		Console::BackgroundColor = ConsoleColor::Yellow;
 		Console::ForegroundColor = ConsoleColor::DarkGray;
 		system("cls");
-		cout << "Fondo cambiado a verde :D" << endl;
+		cout << "Fondo cambiado a amarillo :D" << endl;
 		break;
 	case 4:
 		Console::BackgroundColor = ConsoleColor::Green;
 		Console::ForegroundColor = ConsoleColor::White;
 		system("cls");
-		cout << "Fondo cambiado a amarillo :D" << endl;
+		cout << "Fondo cambiado a verde :D" << endl;
 		break;
 	case 5:
 		Console::BackgroundColor = ConsoleColor::Cyan;
@@ -731,7 +731,201 @@ void buscarporfecha()
 	pausa();
 }
 
+int buscarentradaporid(int id)
+{
+	for (int i = 0; i < totalentradas;i++)
+	{
+		if (diario[i].id == id)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
 
+void editarentrada()
+{
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
+
+	if (totalentradas == 0)
+	{
+		cout << "No hay entradas para editar..." << endl;
+		pausa();
+		return;
+	}
+
+	cout << "==MIS ENTRADAS==" << endl;
+	cout << "Total: " << totalentradas << " entradas" << endl;
+
+	for (int i = 0; i < totalentradas; i++)
+	{
+		cout << "ID: #" << diario[i].id << " | [" << diario[i].fecha << "] " << diario[i].titulo << " - " << diario[i].emocion << endl;
+	}
+
+	int id; 
+	cout << "ID de la entrada a editar: ";
+	cin >> id; 
+	cin.ignore();
+
+	int indice = buscarentradaporid(id);
+
+	if (indice == -1)
+	{
+		cout << "No se encontro una entrada con ID #" << id << endl;
+		pausa();
+		return;
+	}
+
+	cout << "        ==EDITANDO ENTRADA #" << id << " ==" << endl;
+	cout << " -------------------------------------" << endl;
+	cout << "Fecha actual : " << diario[indice].fecha << endl;
+	cout << "Titulo actual : " << diario[indice].titulo << endl;
+	cout << "Contenido actual: " << diario[indice].contenido << endl;
+	cout << "Emocion actual: " << diario[indice].emocion << endl;
+	cout << "________________________________________" << endl;
+
+
+	int opcioneditar;
+	do
+	{
+		cout << "Que deseas modificar? " << endl;
+		cout << "\n> 1. Titulo\n";
+		cout << "\n> 2. Contenido\n";
+		cout << "\n> 3. Emocion\n";
+		cout << "\n> 4. TODO\n";
+		cout << "\n> 5. Cancelar\n";
+		cout << "\n     Opcion:"; cin >> opcioneditar;
+		cin.ignore();
+
+		switch (opcioneditar)
+		{
+		case 1: 
+			cout << "Nuevo titulo: ";
+			cin.getline(diario[indice].titulo, 100);
+			if (strlen(diario[indice].titulo) == 0)
+			{
+				strcpy(diario[indice].titulo, "Sin titulo");
+			}
+			cout << "Titulo actualizado :D" << endl;
+			break;
+		case 2:
+			cout << "Nuevo contenido: ";
+			cin.getline(diario[indice].contenido, 1000);
+			diario[indice].palabras = contarpalabras(diario[indice].contenido);
+			cout << "Contenido actualizado, con ahora " << diario[indice].palabras << " palabras :D";
+			break;
+		case 3:
+			cout << "Nueva emocion (feliz, triste, enojado, cansado, enamorado): ";
+			cin.getline(diario[indice].emocion, 20);
+			cout << "Emocion actualizada :D";
+			break;
+		case 4: 
+			cout << "Nuevo titulo: ";
+			cin.getline(diario[indice].titulo, 100);
+			if (strlen(diario[indice].titulo) == 0)
+			{
+				strcpy(diario[indice].titulo, "Sin titulo");
+			}
+			
+			cout << "Nuevo contenido: ";
+			cin.getline(diario[indice].contenido, 1000);
+			diario[indice].palabras = contarpalabras(diario[indice].contenido);
+			
+			cout << "Nueva emocion (feliz, triste, enojado, cansado, enamorado): ";
+			cin.getline(diario[indice].emocion, 20);
+			cout << "Entrada actualizada completamente >:D" << endl;
+			break;
+		case 5:
+			cout << "Edicion cancelada";
+			break;
+		default:
+			cout << "Opcion invalida";
+		}
+
+		if (opcioneditar >= 1 && opcioneditar <= 4)
+		{
+			cout << "Presiona cualquier tecla para continuar..."; 
+			_getch();
+			system("cls");
+		}
+	} while (opcioneditar < 1 || opcioneditar > 5);
+	
+	
+	Console::BackgroundColor = fondoanterior;
+	Console::ForegroundColor = textoanterior;
+	
+	pausa();
+	pantallacargando();
+	
+}
+
+void eliminarentrada()
+{
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
+
+	if (totalentradas == 0)
+	{
+		cout << "No hay entradas para eliminar" << endl;
+		pausa();
+		return;
+	}
+
+	cout << "==MIS ENTRADAS==" << endl;
+	cout << "Total: " << totalentradas << " entradas" << endl;
+
+	for (int i = 0; i < totalentradas; i++)
+	{
+		cout << "ID: #" << diario[i].id << " | [" << diario[i].fecha << "] " << diario[i].titulo << " - " << diario[i].emocion << endl;
+	}
+
+	int id;
+	cout << "ID de la entrada a eliminar: ";
+	cin >> id;
+	cin.ignore();
+
+	int indice = buscarentradaporid(id);
+
+	if (indice == -1)
+	{
+		cout << "No se encontro una entrada con ID #" << id << endl;
+		pausa();
+		return;
+	}
+	cout << ">> Tienes la total seguridad de eliminar la entrada #" << id << "?" << endl;
+	cout << "Titulo: " << diario[indice].titulo << endl;
+	cout << "Fecha: " << diario[indice].fecha << endl;
+	cout << "           1. Si" << endl;
+	cout << "           2. No" << endl;
+	cout << "           Opcion: " << endl;
+	int confirmar; 
+	cin >> confirmar;
+	cin.ignore();
+
+	if (confirmar == 1)
+	{
+		//mover todas las entradas siguientes una posicion hacia la izquierda
+		for (int i = indice; i < totalentradas - 1; i++)
+		{
+			diario[i] = diario[i + 1];
+		}
+		totalentradas--;
+
+		diario = (entrada*)realloc(diario, totalentradas * sizeof(entrada));
+		cout << "Entrada borrada con exito" << endl;
+	}
+	else
+	{
+		cout << "Eliminacion cancelada";
+	}
+	pantallacargando();
+
+	Console::BackgroundColor = fondoanterior; 
+	Console::ForegroundColor = textoanterior;
+	pausa();
+
+}
 
 
 
@@ -756,7 +950,7 @@ int main()
 		system("cls");
 		preferenciatitulo();
 		aplicarcoloresguardados();
-		Console::ForegroundColor = ConsoleColor::DarkGray;
+		Console::ForegroundColor = ConsoleColor::Gray;
 
 		SetConsoleOutputCP(65001);
 		cout << endl;
@@ -766,8 +960,10 @@ int main()
 		cout << "\n                  |      2. Quiero ver mis entradas...        |\n";
 		cout << "\n                  |          3. Customize... :O               |\n";
 		cout << "\n                  |        4. Buscar por PALABRA              |\n";
-		cout << "\n                  |         5. buscar por FECHA               |\n";
-		cout << "\n                  |             6. Salir...-_-                |\n";
+		cout << "\n                  |         5. Buscar por FECHA               |\n";
+		cout << "\n                  |          6. Editar entrada                |\n";
+		cout << "\n                  |         7. Eliminar entrada               |\n";
+		cout << "\n                  |             8. Salir...-_-                |\n";
 		cout << "\n                   ═══════════════════════════════════════════ \n";
 		cout << "\n                                    Opcion:                   \n"; cin >> opcion;
 		cout << endl;
@@ -806,6 +1002,14 @@ int main()
 			break;
 		case 6:
 			system("cls");
+			editarentrada();
+			break;
+		case 7:
+			system("cls");
+			eliminarentrada();
+			break;
+		case 8:
+			system("cls");
 			cout << "Hasta pronto! :D Recuerda...";
 			mostrarcitamotivacional();
 			cout << "Sigue escribiendo!!!! >:D";
@@ -817,7 +1021,7 @@ int main()
 
 
 
-	} while (opcion !=6);
+	} while (opcion !=8);
 
 	delete[]diario;
 	return 0;
