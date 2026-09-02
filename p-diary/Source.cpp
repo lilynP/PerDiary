@@ -1092,123 +1092,6 @@ void verestadisticas()
 	return;
 }
 
-void guardardiario()
-{
-	if (totalentradas == 0)
-	{
-		remove("diario.txt");
-		return;
-	}
-
-	FILE* archivo = fopen("perdiary.txt", "r");
-	if (archivo == nullptr)
-	{
-		return;
-	}
-
-	fprintf(archivo, "TOTAL_ENTRADAS=%d\n", totalentradas);
-	fprintf(archivo, "SIGUIENTE_ID=%d\n", siguienteid);
-	fprintf(archivo, "TEMA_ACTUAL=%d\n", temaactual);
-	fprintf(archivo, "COLOR_FONDO=%d\n", colorfondoactual);
-	fprintf(archivo, "---ENTRADAS---\n");
-
-	for (int i = 0; i < totalentradas; i++)
-	{
-		fprintf(archivo, "ID=%d\n", diario[i].id);
-		fprintf(archivo, "FECHA=%s\n", diario[i].fecha);
-		fprintf(archivo, "TITULO=%s\n", diario[i].titulo);
-		fprintf(archivo, "CONTENIDO=%s\n", diario[i].contenido);
-		fprintf(archivo, "EMOCION=%s\n", diario[i].emocion);
-		fprintf(archivo, "PALABRAS=%d\n", diario[i].palabras);
-		fprintf(archivo, "---\n");
-	}
-
-	fclose(archivo);
-	cout << "Diario guardado automaticamente" << endl;
-
-}
-
-void cargardiario()
-{
-	FILE* archivo = fopen("diario.txt", "r");
-	if (archivo == nullptr)
-	{
-		return;
-	}
-	if (diario != nullptr)
-	{
-		free(diario);
-		diario = nullptr;
-	}
-	totalentradas = 0;
-
-	char linea[1000];
-	int leyendoentrada = 0;
-	entrada temp;
-	int entradaactual = 0;
-
-	while (fgets(linea, sizeof(linea), archivo))
-	{
-		linea[strcspn(linea, "\n")] = 0;
-
-		if (strncmp(linea, "TOTAL_ENTRADAS=", 15) == 0)
-		{
-			sscanf(linea, "TOTALENTRADAS=$d", &totalentradas);
-			
-			if (totalentradas > 0)
-			{
-				diario = (entrada*)malloc(totalentradas * sizeof(entrada));
-			}
-		}
-		else if (strncmp(linea, "SIGUIENTE_ID=", 13) == 0)
-		{
-			sscanf(linea, "SIGUIENTE_ID=%d", &siguienteid);
-		}
-		else if (strncmp(linea, "TEMA_ACTUAL", 12) == 0)
-		{
-			sscanf(linea, "TEMA_ACTUAL=%d", &temaactual);
-		}
-		else if (strncmp(linea, "COLOR_FONDO=", 12) == 0)
-		{
-			sscanf(linea, "COLOR_FONDO=%d", &colorfondoactual);
-		}
-		else if (strncmp(linea, "---ENTRADAS---", 1) == 0)
-		{
-			leyendoentrada = 1;
-			entradaactual = 0;
-		}
-		else if (leyendoentrada && entradaactual < totalentradas)
-		{
-			if (strcmp(linea, "---") == 0)
-			{
-				entradaactual++;
-			}
-			else if (strncmp(linea, "ID=", 3) == 0)
-			{
-				sscanf(linea, "ID=%d", &diario[entradaactual].id);
-			}
-			else if (strncmp(linea, "FECHA=", 6) == 0)
-			{
-				sscanf(linea, "FECHA=%s", diario[entradaactual].fecha);
-			}
-			else if (strncmp(linea, "TITULO=", 7) == 0)
-			{
-				sscanf(linea, "TITULO=%[^\n]", diario[entradaactual].contenido);
-			}
-			else if (strncmp(linea, "EMOCION=", 8) == 0)
-			{
-				sscanf(linea, "EMOCION=%s", diario[entradaactual].emocion);
-			}
-			else if (strncmp(linea, "PALABRAS=%d", 9) == 0)
-			{
-				sscanf(linea, "PALABRAS=%d", &diario[entradaactual].palabras);
-			}
-		}
-	}
-
-	fclose(archivo);
-	cout << "Diario cargado :D" << endl;
-}
 
 void eliminartodo()
 {
@@ -1270,7 +1153,6 @@ int main()
 	Console::SetWindowSize(80, 40);
 	Console::CursorVisible = false;
 
-	cargardiario();
 	colorfondoactual = 0;
 	aplicarcoloresguardados();
 	if (colorfondoactual == 3 || colorfondoactual == 7)
@@ -1359,7 +1241,6 @@ int main()
 			break;
 		case 9:
 			system("cls");
-			guardardiario();
 			Console::ForegroundColor = ConsoleColor::DarkCyan;
 			cout << "Hasta prontoooo! :D Recuerda...";
 			mostrarcitamotivacional();
@@ -1379,7 +1260,7 @@ int main()
 
 	} while (opcion !=8);
 
-	guardardiario();
+	
 	delete[]diario;
 	return 0;
 }
