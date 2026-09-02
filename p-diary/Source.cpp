@@ -156,9 +156,24 @@ void agregarentrada()
 
 
 	diario = (entrada*)realloc(diario, (totalentradas + 1) * sizeof(entrada));
+	Console::ForegroundColor = ConsoleColor::DarkGreen;
+	cout << " _  _  __  __  ____  _  _  __      ____  _  _  ____  ____    __    ____    __   " << endl;
+	cout << "( \\( )(  )(  )( ___)( \\/ )/__\\    ( ___)( \\( )(_  _)(  _ \\  /__\\  (  _ \\  /__\\" << endl;
+	cout << "  )  (  )(__)(  )__)  \\  //(__)\\    )__)  )  (   )(   )   / /(__)\\  )(_) )/(__)\ " << endl;
+	cout << " (_)\_)(______)(____)  \\/(__)(__)  (____)(_)\\_) (__) (_)\\_)(__)(__)(____/(__)(__)" << endl;
+	
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::DarkGray;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::White;
+	}
 
-	cout << "NUEVA ENTRADA" << endl;
-	cout << "TITULO: ";
+
+	cout << endl;
+	cout << "                                     TITULO: ";
 	cin.ignore();
 	cin.getline(diario[totalentradas].titulo, 100);
 	if (strlen(diario[totalentradas].titulo) == 0)
@@ -167,10 +182,10 @@ void agregarentrada()
 		cout << "Titulo vacio, se asigno 'Sin titulo'. \n";
 	}
 
-	cout << "CONTENIDO: ";
+	cout << "                              CONTENIDO: ";
 	cin.getline(diario[totalentradas].contenido, 1000);
 
-	cout << "EMOCION (feliz, triste, enojado, cansado, enamorado): ";
+	cout <<         "            EMOCION (feliz, triste, enojado, cansado, enamorado): ";
 	cin.getline(diario[totalentradas].emocion, 20);
 
 	diario[totalentradas].id = siguienteid++;
@@ -927,13 +942,162 @@ void eliminarentrada()
 
 }
 
+void verestadisticas()
+{
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
+
+	int totalpalabras = 0;
+	int emociones[5] = { 0 };
+	string nombresemociones[5] = { "Feliz", "Triste", "Enojado", "Cansado", "Enamorado" };
+	string emojis[5] = { "(●'◡'●)", "（；´д｀）", "ゞo(≧口≦)o","(￣﹃￣)","(p≧w≦q)" };
+
+	for (int i = 0; i < totalentradas; i++)
+	{
+		totalpalabras += diario[i].palabras;
+		if (strcmp(diario[i].emocion, "feliz") == 0) emociones[0]++;
+		else if (strcmp(diario[i].emocion, "triste") == 0) emociones[1]++;
+		else if (strcmp(diario[i].emocion, "enojado") == 0) emociones[2]++;
+		else if (strcmp(diario[i].emocion, "cansado") == 0) emociones[3]++;
+		else if (strcmp(diario[i].emocion, "enamorado") == 0) emociones[4]++;
+	}
+
+	float promedio = (float)totalpalabras / totalentradas; 
+	
+	int maxemocion = 0;
+	int indexmax = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		if (emociones[i] > maxemocion)
+		{
+			maxemocion = emociones[i];
+			indexmax = i;
+		}
+	}
+
+	system("cls");
+
+	SetConsoleOutputCP(65001);
+	Console::ForegroundColor = ConsoleColor::DarkYellow;
+	cout << "\n╔══════════════════════════════════════════════════════════════════════════╗" << endl;
+	cout << "  ║                               _        _                                 ║  " << endl;
+	cout << "  ║                           ___| |_ __ _| |_ ___                           ║  " << endl;
+	cout << "  ║                         / __| __/ _` | __/ __|                           ║  " << endl;
+	cout << "  ║                        \\__ \\ || (_| | |_\\__\\                         ║  " << endl;
+	cout << "  ║                         |___/\__\__,_|\__|___/                           ║  " << endl;
+	cout << "  ╚══════════════════════════════════════════════════════════════════════════╝  " << endl;
+	
+	Console::ForegroundColor = ConsoleColor::DarkCyan;
+	cout << "\n┌──────────────────────────────────────────────────────────────────────────┐" << endl;
+	cout << "  |                          ===RESUMEN GENERAL===                           |" << endl;
+	cout << "  ├──────────────────────────────────────────────────────────────────────────┤" << endl;
+
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::DarkGray;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::White;
+	}
+	cout << "                                                                            " << endl;
+	cout << "                          Total de entradas: " << totalentradas << "                               " << endl;
+	cout << "                           Total de palabras: " << totalpalabras << "                              " << endl;
+	cout << "                         Promedio por entrada: " << promedio << "                                 " << endl;
+
+	if (maxemocion > 0)
+	{
+		cout << "  Emocion mas comun: " << emojis[indexmax] << " " << nombresemociones[indexmax] << " (" << maxemocion << " veces)" << "   " << endl;
+	}
+	
+	Console::ForegroundColor = ConsoleColor::DarkRed;
+	cout << "\n┌──────────────────────────────────────────────────────────────────────────┐" << endl;
+	cout << "  |                     ===DISTRIBUCION DE EMOCIONES===                      |" << endl;
+	cout << "  ├──────────────────────────────────────────────────────────────────────────┤" << endl;
+
+	SetConsoleOutputCP(437);
+
+	SetConsoleOutputCP(65001);
+
+	if (colorfondoactual == 3 || colorfondoactual == 7)
+	{
+		Console::ForegroundColor = ConsoleColor::DarkGray;
+	}
+	else
+	{
+		Console::ForegroundColor = ConsoleColor::White;
+	}
+
+	int maxemocionbarra = 0;
+	
+	for (int i = 0; i < 5; i++)
+	{
+		if (emociones[i] > maxemocionbarra) maxemocionbarra = emociones[i];
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		switch (i)
+		{
+		case 0: Console::ForegroundColor = ConsoleColor::DarkYellow; break; //feliz
+		case 1: Console::ForegroundColor = ConsoleColor::DarkBlue; break; //triste
+		case 2: Console::ForegroundColor = ConsoleColor::DarkRed; break; //enojao
+		case 3: Console::ForegroundColor = ConsoleColor::DarkGray; break; //cansao
+		case 4: Console::ForegroundColor = ConsoleColor::DarkMagenta; break; //enamorado
+		}
+
+		cout << " " << emojis[i] << " " << nombresemociones[i] << ": ";
+		
+
+		int barralong = 20;
+		int lleno = 0;
+		if (maxemocionbarra > 0)
+		{
+			lleno = (emociones[i] * barralong) / maxemocionbarra;
+		}
+		
+
+		for (int j = 0; j < lleno; j++)
+		{
+			cout << "█";
+		}
+		for (int j = lleno; j < barralong; j++)
+		{
+			cout << "░";
+		}
+
+		if (colorfondoactual == 3 || colorfondoactual == 7)
+		{
+			Console::ForegroundColor = ConsoleColor::DarkGray;
+		}
+		else
+		{
+			Console::ForegroundColor = ConsoleColor::White;
+		}
+		cout << " " << emociones[i] << " veces" << endl;
+
+		
+	}
+	
+	SetConsoleOutputCP(437);
+	Console::ForegroundColor = ConsoleColor::DarkCyan;
+	cout << "\n----------------------------------------------------------------------------" << endl;
+
+	Console::BackgroundColor = fondoanterior; 
+	Console::ForegroundColor = textoanterior;
+	
+	cout << "Presiona cualquier tecla para volver al menu principal..." << endl;
+	_getch();
+	system("cls");
+	return;
+}
 
 
 int main()
 {
 	srand(time(NULL));
 	int opcion;
-	Console::SetWindowSize(40, 40);
+	Console::SetWindowSize(80, 40);
 	Console::CursorVisible = false;
 	colorfondoactual = 0;
 	aplicarcoloresguardados();
@@ -950,12 +1114,26 @@ int main()
 		system("cls");
 		preferenciatitulo();
 		aplicarcoloresguardados();
+		
+
+
+		if (colorfondoactual == 3 || colorfondoactual == 8)
+		{
+			Console::ForegroundColor = ConsoleColor::Black;
+		}
+		else
+		{
+			Console::ForegroundColor = ConsoleColor::White;
+		}
+
 		Console::ForegroundColor = ConsoleColor::Gray;
 
 		SetConsoleOutputCP(65001);
 		cout << endl;
-		cout << "                     ═══════════════════════════════════════════" << endl;
-		cout << "\n                  |            =======MENU=====               |\n";      
+		cout << "                    ═══════════════════════════════════════════" << endl;
+		cout << "                   |      ┌──┬──┐ ┌─────┐ ├─────┐ ┬     ┬      |"<< endl;
+		cout << "                   |      │  │  │ ├────   │     │ │     │      |" << endl;
+		cout << "                   |      ┴  ┴  ┴ └─────┘ ┴     ┴ └─────┘      |" << endl;
 		cout << "\n                  |        1. QUIERO ESCRIBIR!!! >:D          |\n";
 		cout << "\n                  |      2. Quiero ver mis entradas...        |\n";
 		cout << "\n                  |          3. Customize... :O               |\n";
@@ -963,19 +1141,13 @@ int main()
 		cout << "\n                  |         5. Buscar por FECHA               |\n";
 		cout << "\n                  |          6. Editar entrada                |\n";
 		cout << "\n                  |         7. Eliminar entrada               |\n";
-		cout << "\n                  |             8. Salir...-_-                |\n";
+		cout << "\n                  |         8. Ver estadisticas               |\n";
+		cout << "\n                  |             9. Salir...-_-                |\n";
 		cout << "\n                   ═══════════════════════════════════════════ \n";
 		cout << "\n                                    Opcion:                   \n"; cin >> opcion;
 		cout << endl;
 		
-		if (colorfondoactual == 3 || colorfondoactual == 7)
-		{
-			Console::ForegroundColor = ConsoleColor::DarkGray;
-		}
-		else
-		{
-			Console::ForegroundColor = ConsoleColor::White;
-		}
+		
 
 		
 		SetConsoleOutputCP(437);
@@ -1009,6 +1181,10 @@ int main()
 			eliminarentrada();
 			break;
 		case 8:
+			system("cls");
+			verestadisticas();
+			break;
+		case 9:
 			system("cls");
 			cout << "Hasta pronto! :D Recuerda...";
 			mostrarcitamotivacional();
