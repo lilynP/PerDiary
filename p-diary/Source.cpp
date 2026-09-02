@@ -1092,6 +1092,176 @@ void verestadisticas()
 	return;
 }
 
+void guardardiario()
+{
+	if (totalentradas == 0)
+	{
+		remove("diario.txt");
+		return;
+	}
+
+	FILE* archivo = fopen("perdiary.txt", "r");
+	if (archivo == nullptr)
+	{
+		return;
+	}
+
+	fprintf(archivo, "TOTAL_ENTRADAS=%d\n", totalentradas);
+	fprintf(archivo, "SIGUIENTE_ID=%d\n", siguienteid);
+	fprintf(archivo, "TEMA_ACTUAL=%d\n", temaactual);
+	fprintf(archivo, "COLOR_FONDO=%d\n", colorfondoactual);
+	fprintf(archivo, "---ENTRADAS---\n");
+
+	for (int i = 0; i < totalentradas; i++)
+	{
+		fprintf(archivo, "ID=%d\n", diario[i].id);
+		fprintf(archivo, "FECHA=%s\n", diario[i].fecha);
+		fprintf(archivo, "TITULO=%s\n", diario[i].titulo);
+		fprintf(archivo, "CONTENIDO=%s\n", diario[i].contenido);
+		fprintf(archivo, "EMOCION=%s\n", diario[i].emocion);
+		fprintf(archivo, "PALABRAS=%d\n", diario[i].palabras);
+		fprintf(archivo, "---\n");
+	}
+
+	fclose(archivo);
+	cout << "Diario guardado automaticamente" << endl;
+
+}
+
+void cargardiario()
+{
+	FILE* archivo = fopen("diario.txt", "r");
+	if (archivo == nullptr)
+	{
+		return;
+	}
+	if (diario != nullptr)
+	{
+		free(diario);
+		diario = nullptr;
+	}
+	totalentradas = 0;
+
+	char linea[1000];
+	int leyendoentrada = 0;
+	entrada temp;
+	int entradaactual = 0;
+
+	while (fgets(linea, sizeof(linea), archivo))
+	{
+		linea[strcspn(linea, "\n")] = 0;
+
+		if (strncmp(linea, "TOTAL_ENTRADAS=", 15) == 0)
+		{
+			sscanf(linea, "TOTALENTRADAS=$d", &totalentradas);
+			
+			if (totalentradas > 0)
+			{
+				diario = (entrada*)malloc(totalentradas * sizeof(entrada));
+			}
+		}
+		else if (strncmp(linea, "SIGUIENTE_ID=", 13) == 0)
+		{
+			sscanf(linea, "SIGUIENTE_ID=%d", &siguienteid);
+		}
+		else if (strncmp(linea, "TEMA_ACTUAL", 12) == 0)
+		{
+			sscanf(linea, "TEMA_ACTUAL=%d", &temaactual);
+		}
+		else if (strncmp(linea, "COLOR_FONDO=", 12) == 0)
+		{
+			sscanf(linea, "COLOR_FONDO=%d", &colorfondoactual);
+		}
+		else if (strncmp(linea, "---ENTRADAS---", 1) == 0)
+		{
+			leyendoentrada = 1;
+			entradaactual = 0;
+		}
+		else if (leyendoentrada && entradaactual < totalentradas)
+		{
+			if (strcmp(linea, "---") == 0)
+			{
+				entradaactual++;
+			}
+			else if (strncmp(linea, "ID=", 3) == 0)
+			{
+				sscanf(linea, "ID=%d", &diario[entradaactual].id);
+			}
+			else if (strncmp(linea, "FECHA=", 6) == 0)
+			{
+				sscanf(linea, "FECHA=%s", diario[entradaactual].fecha);
+			}
+			else if (strncmp(linea, "TITULO=", 7) == 0)
+			{
+				sscanf(linea, "TITULO=%[^\n]", diario[entradaactual].contenido);
+			}
+			else if (strncmp(linea, "EMOCION=", 8) == 0)
+			{
+				sscanf(linea, "EMOCION=%s", diario[entradaactual].emocion);
+			}
+			else if (strncmp(linea, "PALABRAS=%d", 9) == 0)
+			{
+				sscanf(linea, "PALABRAS=%d", &diario[entradaactual].palabras);
+			}
+		}
+	}
+
+	fclose(archivo);
+	cout << "Diario cargado :D" << endl;
+}
+
+void eliminartodo()
+{
+	ConsoleColor fondoanterior = Console::BackgroundColor;
+	ConsoleColor textoanterior = Console::ForegroundColor;
+
+	if (totalentradas == 0)
+	{
+		cout << "El diario ya esta vacio" << endl;
+		pausa();
+		return;
+	}
+
+	system("cls");
+
+	Console::ForegroundColor = ConsoleColor::Red;
+	cout << "                       ADVERTENCIA !!!! WARNINGGG !!!! ACHTUNG!!!!!! " << endl; 
+	cout << endl;
+	cout << "       ESTAS A PUNTO DE ELIMINAR PERMANENTEMENTE TODAS LAS ENTRADAS DE TU DIARIO." << endl;
+	cout << "                              ESTA ACCION NO SE PUEDE DESHACER. " << endl;
+	cout << "                                      Eliminar TODO? " << endl;
+	cout << "                             1. SI                     2. NO" << endl;
+	cout << "                                       OPCION: " << endl;
+
+	int confirmar; 
+	cin >> confirmar;
+	cin.ignore();
+	if (confirmar == 1)
+	{
+		free(diario);
+		diario = nullptr;
+		totalentradas = 0;
+		siguienteid = 1;
+
+		remove("diario.txt");
+		system("cls");
+		Console::ForegroundColor = ConsoleColor::DarkGreen;
+		cout << "Diario eliminado completamente." << endl;
+		cout << "Puede volver a empezar de nuevo. " << endl;
+	}
+	else
+	{
+		system("cls");
+		Console::ForegroundColor = ConsoleColor::DarkYellow;
+		cout << "Eliminacion cancelada. Tu diario esta a salvo :)" << endl;
+	}
+
+	Console::BackgroundColor = fondoanterior;
+	Console::ForegroundColor = textoanterior;
+	pausa();
+}
+
+
 
 int main()
 {
@@ -1099,6 +1269,8 @@ int main()
 	int opcion;
 	Console::SetWindowSize(80, 40);
 	Console::CursorVisible = false;
+
+	cargardiario();
 	colorfondoactual = 0;
 	aplicarcoloresguardados();
 	if (colorfondoactual == 3 || colorfondoactual == 7)
@@ -1143,6 +1315,7 @@ int main()
 		cout << "\n                  |         7. Eliminar entrada               |\n";
 		cout << "\n                  |         8. Ver estadisticas               |\n";
 		cout << "\n                  |             9. Salir...-_-                |\n";
+		cout << "\n                  |          10.. ELIMINAR TODO               |\n";
 		cout << "\n                   ═══════════════════════════════════════════ \n";
 		cout << "\n                                    Opcion:                   \n"; cin >> opcion;
 		cout << endl;
@@ -1186,10 +1359,17 @@ int main()
 			break;
 		case 9:
 			system("cls");
-			cout << "Hasta pronto! :D Recuerda...";
+			guardardiario();
+			Console::ForegroundColor = ConsoleColor::DarkCyan;
+			cout << "Hasta prontoooo! :D Recuerda...";
 			mostrarcitamotivacional();
-			cout << "Sigue escribiendo!!!! >:D";
+			Console::ForegroundColor = ConsoleColor::Yellow;
+			cout << "Sigue escribiendo!!! >:D";
 			_getch();
+			break;
+		case 10:
+			system("cls");
+			eliminartodo();
 			break;
 		default:
 			cout << "Pon algo valido >:(";
@@ -1199,6 +1379,7 @@ int main()
 
 	} while (opcion !=8);
 
+	guardardiario();
 	delete[]diario;
 	return 0;
 }
