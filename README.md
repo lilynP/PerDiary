@@ -25,3 +25,8 @@ The program offers you options to choose in every window. You just need to type 
 ==Did I use AI?==
 Of course I did and I feel bad for it, but I needed help and tutoring with some struct parts since I am not THAT fluent, 
 I also used it for some functions, such as the agregarentrada() function.
+
+==PROBLEMS==
+1. It is only in spanish for now.
+2. Sometimes, the app closes.
+3. I had few time.
