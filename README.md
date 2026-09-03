@@ -1,7 +1,7 @@
 (SORRY FOR MY BAD ENGLISH)
 This is my first project I made by my own will. This is also my first Hack Club project, so ui is kind of bad because it is just console, sorry for that.
-The project is mainly in SPANISH. Sorry for that. I will try to make an english version in the future, I still don't know how to change the
-layout for an english version.
+The project is mainly in SPANISH. I will try to make an english version in the future, I still don't know how to change the
+layout for it.
 
 ==What does this project do?==
 It serves as a diary where you can write diary entries, check, edit, delete, search (by date or specific word),
